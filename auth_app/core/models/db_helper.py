@@ -20,5 +20,8 @@ class DatabaseHelper:
         finally:
             db.close()
 
+    def get_session(self) -> Session:
+        return self.session_local()
+
 
 db_helper = DatabaseHelper(url=str(settings.DATABASE_URL))
