@@ -228,3 +228,22 @@ def get_current_user(
         raise credentials_exception
     logger.info(f"User {username} successfully retrieved and validated.")
     return user
+
+
+class RoleChecker:
+    def __init__(self, service_name: str, required_roles: list[str]) -> None:
+        self.service_name = service_name
+        self.required_roles = required_roles
+
+    def __call__(self, user: User = Depends(get_current_user)):
+        """Check if the user has the required role in the specified service"""
+        for user_role in user.roles:
+            if (
+                user_role.service.name == self.service_name
+                and user_role.role in self.required_roles
+            ):
+                return
+        raise HTTPException(
+            status_code=status.HTTP_403_FORBIDDEN,
+            detail="Operation not permitted",
+        )
