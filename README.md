@@ -23,7 +23,17 @@ ADMIN_USERNAME=admin
 ADMIN_EMAIL=admin@gmail.com
 ```
 
-2. Непосредственно запустить проект в контейнере командой:
+2. Создать приватный и публичный ключи. Для этого:
+- создать папку `certs` в корне проекта
+- перейти в эту папку и выполнить в терминале две команды:
+```commandline
+openssl genrsa -out private.pem 2048
+```
+```commandline
+openssl rsa -in private.pem -outform PEM -pubout -out public.pem
+```
+
+3. Непосредственно запустить проект в контейнере командой:
 ```commandline
 docker compose up --build
 ```
